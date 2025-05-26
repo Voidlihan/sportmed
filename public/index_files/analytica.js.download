@@ -1,0 +1,56 @@
+var BMCStat = {
+	xhr: function(cmd){
+		var cmds = ['bounce', 'collect'];
+		if(cmds.indexOf(cmd) == -1) return null;
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'https://' + BMCStat.host + '/stat/'+cmd+'/', true);
+		/*xhr.setRequestHeader('Content-Type', 'multipart/form-data');*/
+		xhr.withCredentials = true;
+		xhr.timeout = 10000;
+		return xhr;
+	},
+	sendVisit: function(){
+		var xhr = BMCStat.xhr('collect');
+		xhr.onreadystatechange = function(){
+			if(this.readyState != 4) return;
+			var data = null;
+			try{
+				data = JSON.parse(this.responseText);
+			} catch(e){
+				data = null;
+			}
+			
+			if(data != null && data != undefined && data.ok == 1 && data.dayStart != undefined){
+				BMCStat.dayStart = data.dayStart;
+			}
+		};
+		
+		// send request
+		var data = new FormData();
+		data.append('stat_id', BMCStat.stat_id);
+		data.append('protocol', window.location.protocol);
+		data.append('uri', window.location.pathname);
+		data.append('referrer', document.referrer);
+		xhr.send(data);
+	},
+	sendBounce: function(){
+		if(BMCStat.dayStart == null) return;
+		var xhr = BMCStat.xhr('bounce');
+		
+		// send request
+		var data = new FormData();
+		data.append('stat_id', BMCStat.stat_id);
+		data.append('dayStart', BMCStat.dayStart);
+		data.append('uri', window.location.pathname);
+		xhr.send(data);
+	},
+	go: function(stat_id, host){
+		if (host != undefined) BMCStat.host = host;
+		BMCStat.stat_id = stat_id;
+		BMCStat.sendVisit();
+		setTimeout(BMCStat.sendBounce, 1000);
+	},
+};
+BMCStat.stat_id = 0;
+BMCStat.dayStart = null;
+BMCStat.host = "stat.kdt.kz";

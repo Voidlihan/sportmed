@@ -1,0 +1,33 @@
+$(document).ready(function(){
+
+	$( ".__gallery  img" ).each(function() {
+		$(this).addClass('image_for_lupa');
+		$(this).css("object-fit", "cover");
+		$(this).wrap( "<a href="+ $(this)[0].src +" class='image_for_lupa_wrapper' target='blank' style='display: inline-block; position:relative; width:"+ $(this)[0].width +"px;height:"+ $(this)[0].height +"px;background:url(https://ofqyzmet.agartu.kz/template/partner/ofqyzmet/images/search-solid.svg) no-repeat center; background-size: 50px 50px;' data-gallery=''></a>" );		 
+	});
+
+	$('.items').slick({
+		infinite: true,
+		dots: false,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 2000,
+		arrows: false,
+		prevArrow: '', /*'<button id="prev" type="button" class="btn btn-juliet" style="border:0; position:absolute; top:calc(50% - 27px);padding:0; font-size:36px; color:rgb(6, 132, 180);z-index:10;"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>',*/
+		nextArrow: '', /*'<button id="prev" type="button" class="btn btn-juliet" style="border:0; position:absolute; top:calc(50% - 27px); right:0; padding:0; font-size:36px; color:rgb(6, 132, 180);z-index:10;"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>',*/
+	});
+
+	$('.single-item').slick({
+		infinite: true,
+		dots: false,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 3000,
+		prevArrow: '', /*'<button id="prev" type="button" class="btn btn-juliet" style="border:0; position:absolute; top:calc(50% - 27px);padding:0; font-size:36px; color:rgb(6, 132, 180);z-index:10;"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>',*/
+		nextArrow: '', /*'<button id="prev" type="button" class="btn btn-juliet" style="border:0; position:absolute; top:calc(50% - 27px); right:0; padding:0; font-size:36px; color:rgb(6, 132, 180);z-index:10;"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>',*/
+	});
+});
+
+
